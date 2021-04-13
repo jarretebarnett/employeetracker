@@ -11,6 +11,18 @@ const connection = mysql.createConnection({
     database: employeetracker_db
 });
 
+const listDepartments = () => {
+
+}
+
+const listRoles = () => {
+    
+}
+
+const listEmployees = () => {
+    
+}
+
 const addDepartment = () => {
 
 }
@@ -20,18 +32,6 @@ const addRole = () => {
 }
 
 const addEmployee = () => {
-    
-}
-
-const showDepartments = () => {
-
-}
-
-const showRoles = () => {
-    
-}
-
-const showEmployees = () => {
     
 }
 
@@ -54,22 +54,22 @@ const init = () => {
             "View employee roster",
             "Add department",
             "Add role",
-            "Add employee",
+            "Add employee to roster",
             "Edit roster roles",
             "End"
         ]
     }).then((answer) => {
         if (answer.select === "View company departments") {
-            showDepartments();
+            listDepartments();
         } else if (answer.select === "View company roles") {
-            showRoles();
+            listRoles();
         } else if (answer.select === "View employee roster") {
-            showEmployees();
+            listEmployees();
         } else if (answer.select === "Add department") {
             addDepartment();
         } else if (answer.select === "Add role") {
             addRole();
-        } else if (answer.select === "Add employee") {
+        } else if (answer.select === "Add employee to roster") {
             addEmployee();
         } else if (answer.select === "Edit roster roles") {
             editRole();
