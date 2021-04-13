@@ -36,5 +36,35 @@ const showEmployees = () => {
 }
 
 const editRole = () => {
-    
+
+}
+
+const init = () => {
+    inquirer.prompt({
+        type: "list",
+        name: "select",
+        message: "Select from the choices below.",
+        choices: [
+            "View company departments",
+            "View company roles",
+            "View employee roster",
+            "Add department",
+            "Add employee",
+            "Edit roster roles"
+        ]
+    }).then((answer) => {
+        if (answer.select === "View company departments") {
+            showDepartments();
+        } else if (answer.select === "View company roles") {
+            showRoles();
+        } else if (answer.select === "View employee roster") {
+            showEmployees();
+        } else if (answer.select === "Add department") {
+            addDepartment();
+        } else if (answer.select === "Add employee") {
+            addEmployee();
+        } else if (answer.select === "Edit roster roles") {
+            editRole();
+        }
+    })
 }
