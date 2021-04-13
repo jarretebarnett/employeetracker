@@ -49,20 +49,72 @@ const addDepartment = () => {
         name: "department",
         message: "Name the new department"
     }).then((answer) => {
-        const query = 'INSERT INTO department(name) VALUE (?)'
+        const query = 'INSERT INTO department(name) VALUE (?)';
         connection.query(query, answer.department, (err, res) => {
             if (err) throw err;
             listDepartments();
-        })
+            init();
+        });
     })
 }
 
 const addRole = () => {
-    
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "title",
+            message: "Supply a desired title for the new role"
+        },
+        {
+            type: "input",
+            name: "salary",
+            message: "What salary is attributed to this title? Please give a number no more than 7 digits"
+        },
+        {
+            type: "input",
+            name: "departmentId",
+            message: "What is the department ID number?"
+        }
+    ]).then((answer) => {
+        const query = 'INSERT INTO role(title, salary, department_id) VALUE (?, ?, ?)';
+        connection.query(query, [answer.title, answer.salary, answer.departmentId], (err, res) => {
+            if (err) throw err;
+            listRoles();
+            init();
+        })
+    })
 }
 
 const addEmployee = () => {
-    
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "firstName",
+            message: "What is the new employee's first name?"
+        },
+        {
+            type: "input",
+            name: "lastName",
+            message: "What is the new employee's last name?"
+        },
+        {
+            type: "input",
+            name: "roleId",
+            message: "Supply a number for their role ID"
+        },
+        {
+            type: "input",
+            name: "managerId",
+            message: "Supply a number for the manager ID, or 'null' if there is no applicable manager"
+        }
+    ]).then((answer) => {
+        const query = 'INSERT INTO role(title, salary, department_id) VALUE (?, ?, ?)';
+        connection.query(query, [answer.firstName, answer.lastName, answer.roleId, answer.managerId], (err, res) => {
+            if (err) throw err;
+            listEmployees();
+            init();
+        })
+    })
 }
 
 const editRole = () => {
@@ -70,7 +122,8 @@ const editRole = () => {
 }
 
 const ejectApp = () => {
-
+    console.log("Goodbye.");
+    connection.end;
 }
 
 const init = () => {
