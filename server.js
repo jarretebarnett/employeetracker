@@ -39,6 +39,10 @@ const editRole = () => {
 
 }
 
+const ejectApp = () => {
+
+}
+
 const init = () => {
     inquirer.prompt({
         type: "list",
@@ -49,8 +53,10 @@ const init = () => {
             "View company roles",
             "View employee roster",
             "Add department",
+            "Add role",
             "Add employee",
-            "Edit roster roles"
+            "Edit roster roles",
+            "End"
         ]
     }).then((answer) => {
         if (answer.select === "View company departments") {
@@ -61,10 +67,14 @@ const init = () => {
             showEmployees();
         } else if (answer.select === "Add department") {
             addDepartment();
+        } else if (answer.select === "Add role") {
+            addRole();
         } else if (answer.select === "Add employee") {
             addEmployee();
         } else if (answer.select === "Edit roster roles") {
             editRole();
+        } else if (answer.select === "End") {
+            ejectApp();
         }
     })
 }
