@@ -1,30 +1,60 @@
+require('dotenv').config()
 const mysql = require("mysql");
-const express = require("express");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 
 const connection = mysql.createConnection({
-    host: "localhost",
+    host: process.env.DB_HOST,
     port: 3306,
-    user: "root",
-    password: "",
-    database: employeetracker_db
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+});
+
+connection.connect((err) => {
+    if (err) throw err;
+    init();
 });
 
 const listDepartments = () => {
-
+    const query = 'SELECT * FROM department';
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        init();
+    })
 }
 
 const listRoles = () => {
-    
+    const query = 'SELECT * FROM role';
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        init();
+    })
 }
 
 const listEmployees = () => {
-    
+    const query = 'SELECT * FROM employee';
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        init();
+    })
 }
 
 const addDepartment = () => {
-
+    inquirer.prompt({
+        type: "input",
+        name: "department",
+        message: "Name the new department"
+    }).then((answer) => {
+        const query = 'INSERT INTO department(name) VALUE (?)'
+        connection.query(query, answer.department, (err, res) => {
+            if (err) throw err;
+            listDepartments();
+        })
+    })
 }
 
 const addRole = () => {
@@ -78,3 +108,5 @@ const init = () => {
         }
     })
 }
+
+init();
