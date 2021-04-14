@@ -128,12 +128,12 @@ const clearDepartment = () => {
         choices: res.map(department => {
           return { name: `${department.name}`, value: department.id }
         })
-      }])
-        .then(answer => {
+      }]).then(answer => {
           const queryii = 'DELETE FROM department WHERE ?'
           connection.query(queryii, [{ id: answer.pickDepartment }], (err, res) => {
             if (err) throw err;
             console.log("Department successfully removed");
+            listDepartments();
             init();
           })
         })
@@ -151,12 +151,12 @@ const clearRole = () => {
         choices: res.map(role => {
           return { name: `${role.title}`, value: role.id }
         })
-      }])
-        .then(answer => {
+      }]).then(answer => {
           const queryii = 'DELETE FROM role WHERE ?'
           connection.query(queryii, [{ id: answer.pickRole }], (err, res) => {
             if (err) throw err;
             console.log("Role successfully removed");
+            listRoles();
             init();
           })
         })
@@ -174,12 +174,12 @@ const clearEmployee = () => {
       choices: res.map(employee => {
         return { name: `${employee.first_name} ${employee.last_name}`, value: employee.id }
       })
-    }])
-      .then(answer => {
+    }]).then(answer => {
         const queryii = 'DELETE FROM employee WHERE ?'
         connection.query(queryii, [{ id: answer.pickEmployee }], (err, res) => {
           if (err) throw err;
           console.log("Employee successfully removed");
+          listEmployees();
           init();
         })
       })
