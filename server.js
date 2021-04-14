@@ -108,7 +108,7 @@ const addEmployee = () => {
             message: "Supply a number for the manager ID, or 'null' if there is no applicable manager"
         }
     ]).then((answer) => {
-        const query = 'INSERT INTO role(title, salary, department_id) VALUE (?, ?, ?)';
+        const query = 'INSERT INTO role(title, salary, department_id) VALUE (?, ?, ?, ?)';
         connection.query(query, [answer.firstName, answer.lastName, answer.roleId, answer.managerId], (err, res) => {
             if (err) throw err;
             listEmployees();
@@ -117,12 +117,77 @@ const addEmployee = () => {
     })
 }
 
-const editRole = () => {
+const clearDepartment = () => {
+    const queryi = 'SELECT * FROM department'
+    connection.query(queryi, (err, res) => {
+      if (err) throw err;
+      inquirer.prompt([{
+        type: "list",
+        name: "pickDepartment",
+        message: "Select a role to remove",
+        choices: res.map(department => {
+          return { name: `${department.name}`, value: department.id }
+        })
+      }])
+        .then(answer => {
+          const queryii = 'DELETE FROM department WHERE ?'
+          connection.query(queryii, [{ id: answer.pickDepartment }], (err, res) => {
+            if (err) throw err;
+            console.log("Department successfully removed");
+            init();
+          })
+        })
+    })
+}
 
+const clearRole = () => {
+    const queryi = 'SELECT * FROM role'
+    connection.query(queryi, (err, res) => {
+      if (err) throw err;
+      inquirer.prompt([{
+        type: "list",
+        name: "pickRole",
+        message: "Select a role to remove",
+        choices: res.map(role => {
+          return { name: `${role.title}`, value: role.id }
+        })
+      }])
+        .then(answer => {
+          const queryii = 'DELETE FROM role WHERE ?'
+          connection.query(queryii, [{ id: answer.pickRole }], (err, res) => {
+            if (err) throw err;
+            console.log("Role successfully removed");
+            init();
+          })
+        })
+    })
+}
+
+const clearEmployee = () => {
+    const queryi = 'SELECT * FROM employee'
+    connection.query(queryi, (err, res) => {
+    if (err) throw err;
+    inquirer.prompt([{
+      type: "list",
+      name: "pickEmployee",
+      message: "Select an employee to remove",
+      choices: res.map(employee => {
+        return { name: `${employee.first_name} ${employee.last_name}`, value: employee.id }
+      })
+    }])
+      .then(answer => {
+        const queryii = 'DELETE FROM employee WHERE ?'
+        connection.query(queryii, [{ id: answer.pickEmployee }], (err, res) => {
+          if (err) throw err;
+          console.log("Employee successfully removed");
+          init();
+        })
+      })
+  })
 }
 
 const ejectApp = () => {
-    console.log("Goodbye.");
+    console.log("Application and connection ejected");
     connection.end;
 }
 
@@ -130,7 +195,7 @@ const init = () => {
     inquirer.prompt({
         type: "list",
         name: "select",
-        message: "Select from the choices below.",
+        message: "Select from the choices below",
         choices: [
             "View company departments",
             "View company roles",
@@ -138,8 +203,10 @@ const init = () => {
             "Add department",
             "Add role",
             "Add employee to roster",
-            "Edit roster roles",
-            "End"
+            "Remove an undesired or expired department",
+            "Remove an undesired or expired role",
+            "Remove an employee from roster",
+            "Exit Application"
         ]
     }).then((answer) => {
         if (answer.select === "View company departments") {
@@ -154,9 +221,13 @@ const init = () => {
             addRole();
         } else if (answer.select === "Add employee to roster") {
             addEmployee();
-        } else if (answer.select === "Edit roster roles") {
-            editRole();
-        } else if (answer.select === "End") {
+        } else if (answer.select === "Remove an undesired or expired department") {
+            clearDepartment();
+        } else if (answer.select === "Remove an undesired or expired role") {
+            clearRole();
+        } else if (answer.select === "Remove an employee from roster") {
+            clearEmployee();
+        } else if (answer.select === "Exit Application") {
             ejectApp();
         }
     })
