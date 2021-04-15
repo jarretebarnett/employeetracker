@@ -37,7 +37,7 @@ There are no tests, or test files involved with this project. Simply run in Term
 
 ## Demo
 
-Video link:
+For a recorded demonstration of the application at work, follow the video link: https://youtu.be/_lDPY5KFWMg
 
 ## Questions
 

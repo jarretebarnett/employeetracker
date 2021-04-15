@@ -1,4 +1,4 @@
-USE employeetracker_db;
+-- USE employeetracker_db;
 
 -- DEPARTMENTS
 
