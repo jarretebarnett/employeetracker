@@ -108,7 +108,7 @@ const addEmployee = () => {
             message: "Supply a number for the manager ID, or 'null' if there is no applicable manager"
         }
     ]).then((answer) => {
-        const query = 'INSERT INTO role(title, salary, department_id) VALUE (?, ?, ?, ?)';
+        const query = 'INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUE (?, ?, ?, ?)';
         connection.query(query, [answer.firstName, answer.lastName, answer.roleId, answer.managerId], (err, res) => {
             if (err) throw err;
             listEmployees();
